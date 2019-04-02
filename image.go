@@ -92,11 +92,11 @@ func (i *img) Bounds() image.Rectangle {
 func (i *img) At(x, y int) color.Color {
 	arrPsn := i.pitch*y + i.stride*x
 	d := readBits(i.buf[arrPsn:], i.h.pixelFormat.rgbBitCount)
+	r := uint8((d & i.h.pixelFormat.rBitMask) >> i.rBit)
+	g := uint8((d & i.h.pixelFormat.gBitMask) >> i.gBit)
+	b := uint8((d & i.h.pixelFormat.bBitMask) >> i.bBit)
 	a := uint8((d & i.h.pixelFormat.aBitMask) >> i.aBit)
-	r := uint8(((d & i.h.pixelFormat.rBitMask) >> i.rBit) * uint32(a) / 255)
-	g := uint8(((d & i.h.pixelFormat.gBitMask) >> i.gBit) * uint32(a) / 255)
-	b := uint8(((d & i.h.pixelFormat.bBitMask) >> i.bBit) * uint32(a) / 255)
-	return color.RGBA{r, g, b, a}
+	return color.NRGBA{r, g, b, a}
 }
 
 func Decode(r io.Reader) (image.Image, error) {
