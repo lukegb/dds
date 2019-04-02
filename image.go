@@ -82,7 +82,7 @@ type img struct {
 }
 
 func (i *img) ColorModel() color.Model {
-	return color.RGBA64Model
+	return color.NRGBAModel
 }
 
 func (i *img) Bounds() image.Rectangle {
