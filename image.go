@@ -115,7 +115,7 @@ func Decode(r io.Reader) (image.Image, error) {
 
 	pitch := (h.width*h.pixelFormat.rgbBitCount + 7) / 8
 	buf := make([]byte, pitch*h.height)
-	if _, err := r.Read(buf); err != nil {
+	if _, err := io.ReadFull(r, buf); err != nil {
 		return nil, fmt.Errorf("reading image: %v", err)
 	}
 	stride := h.pixelFormat.rgbBitCount / 8
